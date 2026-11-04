@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum BookingStatus {
+  WAITING_DEPOSIT
+  SIMULATED_DEPOSIT_RECORDED
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  NOT_SIMULATED
+  SIMULATED_DEPOSIT
+  SIMULATED_PAID
+  CANCELLED
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  phone        String?
+  role         UserRole  @default(CUSTOMER)
+  bookings     Booking[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Destination {
+  id          String          @id @default(cuid())
+  name        String          @unique
+  description String?         @db.Text
+  packages    TravelPackage[]
+  createdAt   DateTime        @default(now())
+}
+
+model TravelPackage {
+  id             String        @id @default(cuid())
+  slug           String        @unique
+  title          String
+  category       String
+  description    String        @db.Text
+  price          Int
+  depositPercent Int           @default(30)
+  image          String
+  destinationId  String
+  destination    Destination   @relation(fields: [destinationId], references: [id])
+  schedules      Schedule[]
+  itinerary      ItineraryDay[]
+  facilities     Facility[]
+  bookings       Booking[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Schedule {
+  id            String        @id @default(cuid())
+  packageId     String
+  package       TravelPackage  @relation(fields: [packageId], references: [id])
+  departureDate DateTime
+  capacity      Int
+  meetingPoint  String
+  bookings      Booking[]
+  createdAt     DateTime      @default(now())
+  @@unique([packageId, departureDate])
+}
+
+model ItineraryDay {
+  id        String        @id @default(cuid())
+  packageId String
+  package   TravelPackage @relation(fields: [packageId], references: [id])
+  day       Int
+  detail    String        @db.Text
+}
+
+model Facility {
+  id        String        @id @default(cuid())
+  packageId String
+  package   TravelPackage @relation(fields: [packageId], references: [id])
+  detail    String
+}
+
+model Booking {
+  id             String        @id @default(cuid())
+  bookingNumber  String        @unique
+  userId         String
+  user           User          @relation(fields: [userId], references: [id])
+  packageId      String
+  package        TravelPackage @relation(fields: [packageId], references: [id])
+  scheduleId     String
+  schedule       Schedule      @relation(fields: [scheduleId], references: [id])
+  participantQty Int
+  totalAmount    Int
+  depositAmount  Int
+  remainingAmount Int
+  status         BookingStatus @default(WAITING_DEPOSIT)
+  paymentStatus  PaymentStatus @default(NOT_SIMULATED)
+  participants   Participant[]
+  payment        SimulatedPayment?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Participant {
+  id        String  @id @default(cuid())
+  bookingId String
+  booking   Booking @relation(fields: [bookingId], references: [id])
+  name      String
+  phone     String?
+}
+
+model SimulatedPayment {
+  id          String        @id @default(cuid())
+  bookingId   String        @unique
+  booking     Booking       @relation(fields: [bookingId], references: [id])
+  amount      Int
+  status      PaymentStatus @default(SIMULATED_DEPOSIT)
+  simulatedAt DateTime      @default(now())
+}
+
+model GalleryImage {
+  id          String   @id @default(cuid())
+  title       String
+  destination String
+  imageUrl    String
+  altText     String
+  createdAt   DateTime @default(now())
+}
+
+model Promotion {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  code        String?
+  validUntil  DateTime
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model CustomItineraryRequest {
+  id          String   @id @default(cuid())
+  name        String
+  phone       String
+  destination String
+  travelDates String
+  participants Int
+  notes       String   @db.Text
+  createdAt   DateTime @default(now())
+}

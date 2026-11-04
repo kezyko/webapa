@@ -1,69 +1,15 @@
-import Image from "next/image";
+const packages = [
+  { place: "Bali", title: "Island of the Gods", days: "4 hari 3 malam", price: "Rp 3.250.000", image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=900&q=85" },
+  { place: "Jawa Timur", title: "Bromo Sunrise Escape", days: "3 hari 2 malam", price: "Rp 1.850.000", image: "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=85" },
+  { place: "Yogyakarta", title: "Heritage & Slow Living", days: "3 hari 2 malam", price: "Rp 1.650.000", image: "https://images.unsplash.com/photo-1596402184320-417e7178b2cd?auto=format&fit=crop&w=900&q=85" },
+];
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+  return <main><nav className="nav wrap"><a className="brand" href="#top"><span>GW</span><strong>Garuda Wisata<br />Jaya</strong></a><div className="navlinks"><a href="/paket">Paket wisata</a><a href="#tentang">Tentang kami</a><a href="/galeri">Galeri</a><a href="/promo">Promo</a><a href="/itinerary">Itinerary khusus</a></div><a className="nav-cta" href="/paket">Jelajahi paket <span>↗</span></a></nav>
+    <section className="hero wrap" id="top"><div className="hero-copy"><p className="eyebrow">Perjalanan yang punya cerita</p><h1>Lebih jauh.<br /><em>Lebih berarti.</em></h1><p className="hero-text">Temukan sudut-sudut indah Indonesia bersama perjalanan yang dirancang dengan perhatian, bukan sekadar destinasi.</p><div className="hero-actions"><a className="button dark" href="#paket">Lihat semua paket <span>↗</span></a><a className="text-link" href="#tentang">Kenapa Garuda Wisata?</a></div></div><div className="hero-image"><div className="hero-note"><span>01</span><p>Perjalanan terbaik<br /><b>dimulai dari sini.</b></p></div></div></section>
+    <section className="search-card wrap"><div><small>Mau pergi ke mana?</small><strong>Semua destinasi <span>⌄</span></strong></div><div><small>Kapan berangkat?</small><strong>Pilih tanggal <span>⌄</span></strong></div><div><small>Dengan siapa?</small><strong>Jumlah peserta <span>⌄</span></strong></div><button className="search-button" aria-label="Cari paket">⌕</button></section>
+    <section className="section wrap" id="paket"><div className="section-head"><div><p className="eyebrow">Pilih perjalananmu</p><h2>Tempat baru,<br /><em>cerita baru.</em></h2></div><a className="text-link" href="#paket">Lihat semua paket <span>↗</span></a></div><div className="package-grid">{packages.map((item) => <article className="package-card" key={item.title}><div className="package-image" style={{ backgroundImage: `url(${item.image})` }}><span className="tag">Open trip</span><button aria-label={`Simpan ${item.title}`}>♡</button></div><div className="package-info"><p>{item.place} <span>·</span> {item.days}</p><h3>{item.title}</h3><strong>{item.price} <small>/ orang</small></strong></div></article>)}</div></section>
+    <section className="story wrap" id="tentang"><div className="story-image"></div><div className="story-copy"><p className="eyebrow">Tentang Garuda Wisata Jaya</p><h2>Karena perjalanan<br />bukan cuma <em>pergi.</em></h2><p>Kami percaya setiap perjalanan punya cara sendiri untuk tinggal lebih lama di ingatan. Dari itinerary yang thoughtful hingga teman perjalanan yang hangat, kami hadir untuk membuat setiap langkah terasa berarti.</p><a className="button outline" href="#kontak">Kenal lebih dekat <span>↗</span></a></div></section>
+    <footer id="kontak"><div className="wrap footer-grid"><div><a className="brand light" href="#top"><span>GW</span><strong>Garuda Wisata<br />Jaya</strong></a><p>Perjalanan Indonesia,<br />dibuat dengan hati.</p></div><div><p className="footer-label">Jelajahi</p><a href="#paket">Paket wisata</a><a href="#tentang">Tentang kami</a><a href="#galeri">Galeri perjalanan</a></div><div><p className="footer-label">Hubungi kami</p><a href="https://wa.me/6281234567890">WhatsApp</a><a href="mailto:halo@garudawisatajaya.demo">halo@garudawisatajaya.demo</a><p className="demo-note">Semua informasi pada website ini adalah data demo.</p></div></div><div className="wrap footer-bottom"><span>© 2026 Garuda Wisata Jaya</span><span>Made for meaningful journeys.</span></div></footer>
+  </main>;
 }

@@ -1,0 +1,6 @@
+import Link from "next/link";
+import { createItineraryRequest } from "./actions";
+
+export default function ItineraryPage() {
+  return <main><nav className="nav wrap"><Link className="brand" href="/"><span>GW</span><strong>Garuda Wisata<br />Jaya</strong></Link><Link className="nav-cta" href="/paket">Lihat paket reguler</Link></nav><section className="custom-itinerary wrap"><p className="eyebrow">Perjalanan sesuai caramu</p><h1>Belum tahu<br /><em>mau mulai dari mana?</em></h1><p className="hero-text">Ceritakan tujuan, tanggal, jumlah peserta, dan gaya perjalananmu. Tim Garuda Wisata akan membantu merangkainya bersama.</p><form className="itinerary-form" action={createItineraryRequest}><input name="name" placeholder="Nama lengkap" required /><input name="phone" placeholder="Nomor WhatsApp" required /><input name="destination" placeholder="Tujuan perjalanan" required /><input name="travelDates" placeholder="Tanggal atau rentang tanggal" required /><input name="participants" type="number" min="1" placeholder="Jumlah peserta" required /><textarea name="notes" placeholder="Ceritakan kebutuhan perjalananmu" required /><button className="button dark" type="submit">Kirim permintaan <span>↗</span></button></form><p className="demo-note">Permintaan disimpan sebagai data demo. Admin akan melanjutkan konsultasi melalui WhatsApp.</p></section></main>;
+}
